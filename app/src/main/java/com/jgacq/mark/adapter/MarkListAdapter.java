@@ -1,6 +1,7 @@
 package com.jgacq.mark.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jgacq.mark.BookMarkDetailsActivity;
 import com.jgacq.mark.R;
 import com.jgacq.mark.litepal.Bookmark;
 
@@ -26,8 +28,6 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.ViewHo
     private List<Bookmark> bookmarks;
     private Random random = new Random();
     private Context c;
-    private List<ImageView> imageViews = new ArrayList<>();
-    private List<String> imageName = new ArrayList<>();
 
     public MarkListAdapter(List<Bookmark> marks){
         bookmarks = marks;
@@ -36,6 +36,7 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         CardView cardView = (CardView)LayoutInflater.from(parent.getContext()).inflate(R.layout.mark_card,parent,false);
+
         final ViewHolder viewHolder = new ViewHolder(cardView);
         if(c == null){
             c = parent.getContext();
@@ -45,18 +46,22 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.ViewHo
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 String url = bookmarks.get(position).getSiteUrl();
-                Log.e("TTTTTTTT",url);
+                Intent intent = new Intent(c, BookMarkDetailsActivity.class);
+                intent.putExtra("url",url);
+                c.startActivity(intent);
             }
         });
-        return null;
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Bookmark bookmark = bookmarks.get(position);
         int num = random.nextInt(8) + 1;
-        holder.imageView.setBackgroundResource(c.getResources().getIdentifier("mark_img_0"+num,"drawable", c.getPackageName()));
-        holder.textView.setText(bookmark.getSiteName());
+        int imageRid = c.getResources().getIdentifier("mark_img_0"+num,"drawable", c.getPackageName());
+        String bookMarkName = bookmark.getSiteName();
+        holder.imageView.setBackgroundResource(imageRid);
+        holder.textView.setText(bookMarkName);
     }
 
     @Override

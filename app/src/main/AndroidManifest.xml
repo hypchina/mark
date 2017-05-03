@@ -26,7 +26,8 @@
             android:exported="true" />
 
         <activity android:name=".BookMarkActivity" />
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".BookMarkDetailsActivity"></activity>
     </application>
 
 </manifest>

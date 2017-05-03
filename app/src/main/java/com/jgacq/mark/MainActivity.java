@@ -191,6 +191,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 Log.e("TTTTTTTTTT","点击down_data");
                 break;
             }
+            case R.id.show_book_mark:{
+                Intent intent = new Intent(this,BookMarkActivity.class);
+                startActivity(intent);
+                break;
+            }
         }
     }
 
