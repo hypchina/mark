@@ -23,9 +23,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@drawable/search_input_bg"
-            android:layout_weight="8"/>
+            android:layout_weight="8"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
 
         <Button
+            android:id="@+id/search_btn"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="10dp"
             android:layout_width="0dp"

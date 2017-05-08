@@ -27,7 +27,8 @@
 
         <activity android:name=".BookMarkActivity" />
         <activity android:name=".BaseActivity" />
-        <activity android:name=".BookMarkDetailsActivity"></activity>
+        <activity android:name=".BookMarkDetailsActivity" />
+        <activity android:name=".util.BookMarkTitleListActivity"></activity>
     </application>
 
 </manifest>

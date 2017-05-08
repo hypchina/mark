@@ -35,6 +35,7 @@ import com.jgacq.mark.adapter.MarkListAdapter;
 import com.jgacq.mark.litepal.Bookmark;
 import com.jgacq.mark.service.SynchroDataService;
 import com.jgacq.mark.util.ActivityController;
+import com.jgacq.mark.util.BookMarkTitleListActivity;
 import com.jgacq.mark.util.HttpUtil;
 import com.jgacq.mark.util.ParseJSON;
 
@@ -97,6 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         View headerLayout = ((NavigationView)findViewById(R.id.nav_layout)).getHeaderView(0);
         circleImageView = (CircleImageView)headerLayout.findViewById(R.id.circle_img);
         LinearLayout showBookMark = (LinearLayout)headerLayout.findViewById(R.id.show_book_mark);
+        LinearLayout showTitleBookMark = (LinearLayout)headerLayout.findViewById(R.id.show_book_mark_vlist);
 
 
         //设置头像
@@ -121,7 +123,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         circleImageView.setOnClickListener(this);
         showBookMark.setOnClickListener(this);
         downBtn.setOnClickListener(this);
-
+        showTitleBookMark.setOnClickListener(this);
 
         //启动同步数据的服务
         Intent intent = new Intent(this, SynchroDataService.class);
@@ -134,12 +136,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         HttpUtil.sendRequest(HttpUtil.URLCONFIG.markListUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
 
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final int count = ParseJSON.getResponse(response.body().string()).getDataList().size();
+                Log.e("TTTTTTTTT",count+"");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -196,6 +206,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 startActivity(intent);
                 break;
             }
+            case R.id.show_book_mark_vlist:{
+                Intent intent = new Intent(this,BookMarkTitleListActivity.class);
+                startActivity(intent);
+                break;
+            }
         }
     }
 
@@ -226,5 +241,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             ActivityController.finishAll();
             System.exit(0);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(connection);
     }
 }
